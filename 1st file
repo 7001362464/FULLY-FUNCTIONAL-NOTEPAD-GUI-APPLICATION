@@ -1,7 +1,5 @@
-'''https://www.youtube.com/watch?v=6YJIfCgDKJo
-
-this is vedio link of this application'''
 import mysql.connector
+import time
 from tkinter import *
 from tkinter import messagebox
 mydb=mysql.connector.connect(host='localhost',user='root',password='Saikat676@',database='db9');
@@ -63,10 +61,10 @@ def log(root1):
     
    
     Label(root4,text="userid",fg='yellow',bg='red').pack();
-    Entry(root4,textvariable=a).pack();
+    Entry(root4,textvariable=a,show="*").pack();
     
     Label(root4,text="password",fg='yellow',bg='red').pack();
-    Entry(root4,textvariable=b).pack();
+    Entry(root4,textvariable=b,show="*").pack();
     
     Button(root4,text='ok',fg='red',bg='yellow',command= lambda: logok(root4,a,b)).pack();
     root4.mainloop();
@@ -113,9 +111,10 @@ def of(root2,resul,n,o):
     
     
     if(result is not None):
-     result=result.split("new");
+     result=result.split(" #@-69474452083 ");#this is security code
      for i in range(len(result)):
-        Label(root5,text="new {}".format(i),fg='yellow',bg='red',font=4).pack();
+         if(i is not 0):
+            Label(root5,text="new {}".format(i),fg='yellow',bg='red',font=4).pack();
      p=StringVar(root5);
      Label(root5,text="enter your choice",fg='yellow',bg='red').pack();
      Entry(root5,textvariable=p).pack();
@@ -149,20 +148,29 @@ def fe(root5,p,result,n,o):
     tex.insert(INSERT,text);
     mymenu=Menu(root3);
     listone=Menu(root3);
-    listone.add_command(label='save change',command= lambda: scf(root3,result,tex,n,o));
+    listone.add_command(label='save change',command= lambda: scf(root3,result,tex,n,o,p));
     listone.add_command(label='open files',command= lambda: of(root3,result,n,o));
     mymenu.add_cascade(label="file",menu=listone);
     root3.config(menu=mymenu);
     root3.mainloop()
 
 
-def scf(root,result,tex,o,q):
+def scf(root,result,tex,o,q,p):
+    mydb=mysql.connector.connect(host='localhost',user='root',password='Saikat676@',database='db9');
+    cur=mydb.cursor();
+    l="select text from inform where userid=%s and password=%s;"
+    cur.execute(l,(o,q));
+    result=cur.fetchall();
     result=result[0];
     result=result[0]
     cur=mydb.cursor()
     r=tex.get(1.0,END);
-
-    s=result+" new "+r;
+    result=result.split(" #@-69474452083 ");
+    result[int(p)]=r;
+    result=result[1:len(result)]
+    s=""
+    for i in result:
+        s=s+" #@-69474452083 "+i;
     l="update inform set text=%s where userid=%s and password=%s;"
     cur.execute(l,(s,o,q));
     mydb.commit();
@@ -185,10 +193,10 @@ def sf(root6,result,tex,k,m):
     result=result[0];
     result=result[0]
     if(result is not None):
-     resul=result.split("new");
+     resul=result.split(" #@-69474452083 ");
      messagebox.showinfo('alert name is automatically given','do you want to save the file in the name of new {}?'.format(len(resul)));
     else:
-        messagebox.showinfo('alert name is automatically given','do you want to save the file in the name of new 1?')
+        messagebox.showinfo('alert name is automatically given','do you want to save the file in the name of new 1?');
     print(result);
     
     
@@ -204,7 +212,7 @@ def sf(root6,result,tex,k,m):
     
     if(result is None):
         
-      s=" new "+r;
+      s=" #@-69474452083 "+r;
       l="update inform set text=%s where userid=%s and password=%s;"
       cur.execute(l,(s,k,m));
       mydb.commit();
@@ -214,7 +222,7 @@ def sf(root6,result,tex,k,m):
       root7.mainloop()
       
     else:
-      s=result+" new "+r;
+      s=result+" #@-69474452083 "+r;
       l="update inform set text=%s where userid=%s and password=%s;"
       cur.execute(l,(s,k,m));
       mydb.commit();
